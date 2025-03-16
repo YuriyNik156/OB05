@@ -103,37 +103,38 @@ class Obstacle:
 
 # Основная функция игры
 def main():
-    clock = pygame.time.Clock()
-    running = True
-    player = Player()
-    obstacles = [Obstacle(2)]
-    score = 0
+    clock = pygame.time.Clock() # Управление скоростью обновления игры (FPS)
+    running = True # Управление основным игровым циклом
+    player = Player() # Объект класса Player(), машина игрока
+    obstacles = [Obstacle(2)] # Список препятствий с начальной скоростью 2
+    score = 0 # Переменная для хранения игрового счета
     speed = 2  # Начальная скорость
 
-    while running:
-        SCREEN.fill(WHITE)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+    while running: # Бесконечный цикл
+        SCREEN.fill(WHITE) # Заполнение экрана белым цветом
+        for event in pygame.event.get(): # Перебор событий в игре
+            if event.type == pygame.QUIT: # Завершение игры при закрытии окна
                 pygame.quit()
                 return
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
+        keys = pygame.key.get_pressed() # Получение состояний клавиш на клавиатуре
+        if keys[pygame.K_LEFT]: # Перемещение машины игрока влево LEFT
             player.move("LEFT")
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT]: # Перемещение машины игрока вправо RIGHT
             player.move("RIGHT")
 
         # Увеличение скорости со временем
         speed += 0.005
 
         # Обновление препятствий
-        for obstacle in obstacles:
-            obstacle.move()
+        for obstacle in obstacles: # Итерация машин-препятствий
+            obstacle.move() # Перемещение машин-препятствий сверху вниз
             if obstacle.y > HEIGHT:
-                obstacles.remove(obstacle)
-                obstacles.append(Obstacle(speed))
+                obstacles.remove(obstacle) # Удаление пройденных препятствий
+                obstacles.append(Obstacle(speed)) # Добавление новых препятствий
                 score += 1
 
+            # Проверка столкновений игрока с препятствиями
             if (player.x < obstacle.x + obstacle.width and
                     player.x + player.width > obstacle.x and
                     player.y < obstacle.y + obstacle.height and
@@ -142,15 +143,15 @@ def main():
                 return
 
         # Отрисовка объектов
-        player.draw()
+        player.draw() # Отрисовка машины игрока
         for obstacle in obstacles:
-            obstacle.draw()
+            obstacle.draw() # Отрисовка машин-препятствий
 
         # Отображение счета
         draw_text(f"Score: {score}", 10, 10)
 
-        pygame.display.flip()
-        clock.tick(30)
+        pygame.display.flip() # Обновление экрана
+        clock.tick(30) # Частота кадров (30 в сек.)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Запуск игры
     main_menu()
