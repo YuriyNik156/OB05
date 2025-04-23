@@ -1,0 +1,17 @@
+import telebot
+
+# Укажите здесь ваш токен, который вы получили у BotFather в Telegram
+TOKEN = '7964817874:AAExPMk3s2sHp7-2fRKUajNzMqiYEgak0a8'
+
+# Создаем экземпляр бота
+bot = telebot.TeleBot(TOKEN)
+
+# Обработчик для всех текстовых сообщений
+@bot.message_handler(func=lambda message: True)
+def respond_to_message(message):
+    bot.reply_to(message, "этот бот лежит на локальном сервере с автозапуском")
+
+# Запускаем бота
+if __name__ == "__main__":
+    print("Бот запущен и работает...")
+    bot.infinity_polling()
